@@ -4,6 +4,7 @@ const express = require('express');
 const { OpenAI } = require('openai');
 const app = express();
 const port = 5000;
+connectDB();
 // Mock data for testing
 const mockCoverLetter = {
   jobTitle: "Software Engineer",
