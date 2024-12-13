@@ -1,10 +1,13 @@
 require('dotenv').config(); // Add this line at the top of your server.js
-
+const CoverLetter = require('./models/Coverletter');
+const CoverLetterRoutes = require('./models/Coverletter.js')
 const express = require('express');
 const { OpenAI } = require('openai');
 const app = express();
 const port = 5000;
-connectDB();
+const connectDb = require('./config/database')
+// / Check if it outputs the correct API key
+
 // Mock data for testing
 const mockCoverLetter = {
   jobTitle: "Software Engineer",
@@ -73,8 +76,10 @@ app.post('/generate-cover-letter', async (req, res) => {
       stack: error.stack,
     });
   }
+
 });
 
+app.use('/api/letters', CoverLetterRoutes);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
