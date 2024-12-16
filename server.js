@@ -1,13 +1,14 @@
 require('dotenv').config(); // Load environment variables at the start
 const express = require('express');
 const mongoose = require('mongoose');
-const CoverLetter = require('./models/CoverLetter');
- // Mongoose model
-const coverLetterRoutes = require('./routes/coverLtterRoutes'); // Route handlers
+const testRouter = require('./routes/testRouter.js');
+const coverLetterRoutes = require('./routes/coverLetterRoutes.js'); // Correct the import
 const { OpenAI } = require('openai');
 
 const app = express();
 const port = 5000;
+
+// Connect to MongoDB
 const connectDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
@@ -22,11 +23,13 @@ const connectDb = async () => {
 };
 connectDb();
 
-// Middleware
+// Middleware to parse JSON
 app.use(express.json());
 
-// All routes are now handled through coverLetterRoutes
+// Register routes for cover letter and test
+console.log('Registering routes for /api/letters and /api/test');
 app.use('/api/letters', coverLetterRoutes);
+app.use('/api/test', testRouter);
 
 // Start server
 app.listen(port, () => {
